@@ -22,7 +22,7 @@ public class MyBot extends TelegramLongPollingBot {
 
 
         if (update.getMessage().getChat().getId() == -1002499280744L){
-            saveMovie(update.getMessage());
+
         }else {
 
         }
@@ -31,37 +31,7 @@ public class MyBot extends TelegramLongPollingBot {
 
 
 
-    private void saveMovie(Message message) {
-        String fileId = message.getVideo().getFileId();
-        String caption = message.getCaption();
 
-        String sql = "INSERT INTO movie (movie_id , name) VALUES (?, ?);";
-
-        try(Connection connection = db.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
-            preparedStatement.setString(1, fileId);
-
-            if (caption != null){
-                preparedStatement.setString(2,caption);
-            }
-
-
-            preparedStatement.executeUpdate();
-
-            System.out.println( " created");
-            SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(message.getChat().getId());
-            sendMessage.setText("saqlandi");
-            try {
-                execute(sendMessage);
-            } catch (TelegramApiException e) {
-                throw new RuntimeException(e);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public String getBotUsername() {
